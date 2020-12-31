@@ -1,211 +1,59 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins
+" General Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Specify a directory for plugins
-call plug#begin('~/.vim/plugged')
+set nocompatible             " Don't try to be vi compatible
+syntax on                    " Enable syntax highlighting
+set history=500              " Sets how many lines of history vim has to remember
+filetype plugin on           " Enable filetype plugins
+filetype indent on           " Enable loading of indents based on filetype
+set mouse=a                  " Enable mouse support
+set number relativenumber    " Enable line numbers
+set laststatus=2             " Always show the status line
+set expandtab                " Use spaces instead of tab
+set smarttab                 " Enable smart tabs
+set autoindent               " Enable auto indent
+set smartindent              " Enable smart indent
+set nowrap                   " Disable word wrapping
+set nobackup                 " Turn backup off
+set noswapfile               " Don't create swap files
+set ruler                    " Always show current position
+set cmdheight=1              " Height of the command bar
+set hidden                   " A buffer becomes hidden when it is abandoned
+set ignorecase               " Ignore case when searching
+set smartcase                " When searching try to be smart about cases
+set incsearch                " Highlight search results
+set lazyredraw               " Don't redraw while executing macros
+set magic                    " Enable regex magic
+set showmatch                " Show matching brackets when cursor is over them
+set mat=2                    " Tenths of a second to blink when matching brackets
+set encoding=utf-8           " Set utf8 as standard encoding and en_US as standard language
+set clipboard=unnamed        " Use system clipboard as default register
 
-" Tree explorer plugin
-Plug 'scrooloose/nerdtree'
-
-" Integrate fuzzy file finding with Vim
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Syntax hightighting for various languages
-Plug 'sheerun/vim-polyglot'
-
-" One Dark colorscheme
-Plug 'joshdick/onedark.vim'
-
-" Emmet
-Plug 'mattn/emmet-vim'
-
-" Lightline
-Plug 'itchyny/lightline.vim'
-
-" Comment line
-Plug 'tpope/vim-commentary'
-
-" Insert or delete brackets, parens, quotes, etc in pairs
-Plug 'jiangmiao/auto-pairs'
-
-" Whitespace highlighting/deletion
-Plug 'ntpeters/vim-better-whitespace'
-
-call plug#end()
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Don't try to be vi compatible
-set nocompatible
-
-" Sets how many lines of history VIM has to remember
-set history=500
-
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
+" Remove trailing whitespace on save
+" https://makandracards.com/makandra/11541-how-to-not-leave-trailing-whitespace-using-your-editor-or-git
+autocmd BufWritePre * :%s/\s\+$//e
 
 " Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * checktime
 
-" Set leader key
-let mapleader=","
+" 1 tab = 2 spaces
+set shiftwidth=2
+set tabstop=2
 
-" Enable mouse support
-set mouse=a
-
-" Enable line numbers
-set number relativenumber
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Turn on the Wild menu
-set wildmenu
-set wildignorecase
-
-" Always show current position
-set ruler
-
-" Height of the command bar
-set cmdheight=1
-
-" A buffer becomes hidden when it is abandoned
-set hid
-
-" Configure backspace so it acts as it should
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases
-set smartcase
-
-" Highlight search results
-set incsearch
-
-" Don't redraw while executing macros (good perfomance config)
-set lazyredraw
-
-" For regular expressions turn magic on
-set magic
-
-" Show matching brackets when text indicator is over them
-set showmatch
-
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Enable syntax highlighting
-syntax on
-
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
-
-" Set colorscheme and background
-colorscheme onedark
-set background=dark
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
-
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Status line
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Always show the status line
-set laststatus=2
-
-" Configure Lightline to use One Dark theme
-let g:lightline = {
-  \ 'colorscheme': 'onedark',
-  \ }
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups, and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Turn backup off
-set nobackup
-set nowb
-set noswapfile
+" Enable line break at 500 characters
+set linebreak
+set tw=500
 
 " Create undo directory
 set undodir=~/.vim/undodir
 set undofile
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab, and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Use spaces instead of tabs
-set expandtab
-
-" Enable smart tabs
-set smarttab
-
-" 1 tab == 2 spaces
-set shiftwidth=2
-set tabstop=2
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
-" Auto indent, Smart indent, wrap lines
-set ai
-set si
-set wrap
-
-" Remap vim-commentary to <C-/>
-nmap <C-/> gcc
-vmap <C-/> gcc
-
-" Close vim if NERDTree is the last open window
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists ('b:NERDTree') && b:NERDTree.isTabTree() |
-  \ quit | endif
-
-" Enable trim whitespace on save
-let g:strip_whitespace_on_save = 1
-let g:strip_whitespace_confirm=0
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows, and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" Enable 256 colors palette in Gnome Terminal
+if $COLORTERM == 'gnome-terminal'
+  set t_Co=256
+endif
 
 " Specify the behavior when switching between buffers
 try
@@ -214,12 +62,110 @@ try
 catch
 endtry
 
-" Return to last edit position when opening files
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Return to the last edit position when opening files
+au BufReadPost * if line("'\'") > 1 && line("'\'") <= line("$") | exe "normal! g'\"" | endif
 
-" Bind <C-\> to toggle NERDTree
+" Turn on the wild menu
+set wildmenu
+set wildignorecase
+
+" Configure backspace to work as expected
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+" Disable error sounds
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin Installation
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+" NERDTree file tree
+Plug 'scrooloose/nerdtree'
+
+" Integrate fuzzy file finding with vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Syntax highlighting for various languages
+Plug 'sheerun/vim-polyglot'
+
+" One Dark Colorscheme
+Plug 'joshdick/onedark.vim'
+
+" Emmet
+Plug 'mattn/emmet-vim'
+
+" Configurable statusline
+Plug 'itchyny/lightline.vim'
+
+" Minimal motion plug
+Plug 'justinmk/vim-sneak'
+
+" Comment Line
+Plug 'tpope/vim-commentary'
+
+" Insert or delete brackets, parens, quotes, etc in pairs
+Plug 'jiangmiao/auto-pairs'
+
+" Display vertical line at each indentation level
+Plug 'Yggdroot/indentline'
+
+call plug#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin Configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Set colorscheme and background
+colorscheme onedark
+set background=dark
+
+" Configure Lightline to use One Dark theme
+let g:lightline = {
+  \ 'colorscheme': 'onedark'
+  \ }
+
+" Close vim if NERDTree is the last open window
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists ('b:NERDTree') && b:NERDTree.isTabTree() |
+  \ quit | endif
+
+" Enable label-mode for vim-sneak
+let g:sneak#label=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Custom Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Set leader key
+let mapleader=" "
+let g:mapleader=" "
+
+" Smart way to move between windows
+" map <C-j> <C-w>j
+" map <C-k> <C-w>k
+" map <C-h> <C-w>h
+" map <C-l> <C-w>l
+
+" Remap vim-commentary
+" nmap <C-/> gcc
+" imap <C-/> gcc
+" vmap <C-/> gcc
+
+" Bind to toggle NERDTree
 nnoremap <C-\> :NERDTreeToggle<CR>
+inoremap <C-\> :NERDTreeToggle<CR>
+vnoremap <C-\> :NERDTreeToggle<CR>
 
-" Bind <C-p> for file search
+" Bind to file search
 nnoremap <C-p> :GFiles<CR>
 
+" Extra indent mappings
+vmap <Tab> >gv
+vmap <S-Tab> <gv
