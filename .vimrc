@@ -30,6 +30,9 @@ set mat=2                    " Tenths of a second to blink when matching bracket
 set encoding=utf-8           " Set utf8 as standard encoding and en_US as standard language
 set clipboard=unnamed        " Use system clipboard as default register
 
+" Disable automatic comment insertion for all filetypes
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 " Remove trailing whitespace on save
 " https://makandracards.com/makandra/11541-how-to-not-leave-trailing-whitespace-using-your-editor-or-git
 autocmd BufWritePre * :%s/\s\+$//e
