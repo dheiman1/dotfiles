@@ -155,17 +155,6 @@ let g:sneak#label=1
 let mapleader=" "
 let g:mapleader=" "
 
-" Smart way to move between windows
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-h> <C-w>h
-map <C-l> <C-w>l
-
-" Remap vim-commentary
-" nmap <C-/> gcc
-" imap <C-/> gcc
-" vmap <C-/> gcc
-
 " Bind to toggle NERDTree
 nnoremap <C-\> :NERDTreeToggle<CR>
 inoremap <C-\> :NERDTreeToggle<CR>
