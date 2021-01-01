@@ -49,6 +49,11 @@ set tabstop=2
 set linebreak
 set tw=500
 
+" Set custom cursor in Konsole
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 " Create undo directory
 set undodir=~/.vim/undodir
 set undofile
@@ -151,10 +156,10 @@ let mapleader=" "
 let g:mapleader=" "
 
 " Smart way to move between windows
-" map <C-j> <C-w>j
-" map <C-k> <C-w>k
-" map <C-h> <C-w>h
-" map <C-l> <C-w>l
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-h> <C-w>h
+map <C-l> <C-w>l
 
 " Remap vim-commentary
 " nmap <C-/> gcc
