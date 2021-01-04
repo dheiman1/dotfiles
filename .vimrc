@@ -29,6 +29,11 @@ set showmatch                " Show matching brackets when cursor is over them
 set mat=2                    " Tenths of a second to blink when matching brackets
 set encoding=utf-8           " Set utf8 as standard encoding and en_US as standard language
 set clipboard=unnamed        " Use system clipboard as default register
+set noshowmode               " Hide mode message on bottom of screen
+
+" Set 120 character ruler
+set textwidth=120
+set colorcolumn=+1
 
 " Disable automatic comment insertion for all filetypes
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -48,11 +53,6 @@ set tabstop=2
 " Enable line break at 500 characters
 set linebreak
 set tw=500
-
-" Set custom cursor in Konsole
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " Create undo directory
 set undodir=~/.vim/undodir
@@ -110,6 +110,9 @@ Plug 'joshdick/onedark.vim'
 " Emmet
 Plug 'mattn/emmet-vim'
 
+" Vim/Tmux Navigation
+Plug 'christoomey/vim-tmux-navigator'
+
 " Configurable statusline
 Plug 'itchyny/lightline.vim'
 
@@ -145,7 +148,10 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists ('b:NERDT
   \ quit | endif
 
 " Enable label-mode for vim-sneak
-let g:sneak#label=1
+let g:sneak#label = 1
+
+" Customize vim-tmux-navigator hotkeys
+let g:tmux_navigator_no_mappings = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Mappings
@@ -154,6 +160,18 @@ let g:sneak#label=1
 " Set leader key
 let mapleader=" "
 let g:mapleader=" "
+
+" Smart way to move between windows
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+" Map Tmux Navigation hotkeys
+nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
 " Bind to toggle NERDTree
 nnoremap <C-\> :NERDTreeToggle<CR>
