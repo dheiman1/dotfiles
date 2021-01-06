@@ -30,10 +30,7 @@ set mat=2                    " Tenths of a second to blink when matching bracket
 set encoding=utf-8           " Set utf8 as standard encoding and en_US as standard language
 set clipboard=unnamed        " Use system clipboard as default register
 set noshowmode               " Hide mode message on bottom of screen
-
-" Set 120 character ruler
-set textwidth=120
-set colorcolumn=+1
+set ttimeoutlen=0            " Reduce time to exit insert mode
 
 " Disable automatic comment insertion for all filetypes
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -46,9 +43,9 @@ autocmd BufWritePre * :%s/\s\+$//e
 set autoread
 au FocusGained,BufEnter * checktime
 
-" 1 tab = 2 spaces
-set shiftwidth=2
-set tabstop=2
+" 1 tab = 4 spaces
+set shiftwidth=4
+set tabstop=4
 
 " Enable line break at 500 characters
 set linebreak
@@ -118,6 +115,9 @@ Plug 'itchyny/lightline.vim'
 
 " Minimal motion plug
 Plug 'justinmk/vim-sneak'
+
+" Improve terminal integration with tmux in iTerm and Konsole
+Plug 'wincent/terminus'
 
 " Comment Line
 Plug 'tpope/vim-commentary'
