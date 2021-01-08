@@ -47,7 +47,10 @@ au FocusGained,BufEnter * checktime
 set shiftwidth=4
 set tabstop=4
 
-" Enable line break at 500 characters
+" Set ruler at 120 characters
+set colorcolumn=120
+
+" Set line break at 500 characters
 set linebreak
 set tw=500
 
@@ -91,6 +94,9 @@ set tm=500
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
+" Vim Intellisense engine
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " NERDTree file tree
 Plug 'scrooloose/nerdtree'
 
@@ -98,8 +104,17 @@ Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+" Git wrapper
+Plug 'tpope/vim-fugitive'
+
+" Display git diff in sign column
+Plug 'airblade/vim-gitgutter'
+
 " Syntax highlighting for various languages
 Plug 'sheerun/vim-polyglot'
+
+" Configurable statusline
+Plug 'itchyny/lightline.vim'
 
 " One Dark Colorscheme
 Plug 'joshdick/onedark.vim'
@@ -109,9 +124,6 @@ Plug 'mattn/emmet-vim'
 
 " Vim/Tmux Navigation
 Plug 'christoomey/vim-tmux-navigator'
-
-" Configurable statusline
-Plug 'itchyny/lightline.vim'
 
 " Minimal motion plug
 Plug 'justinmk/vim-sneak'
@@ -138,9 +150,17 @@ call plug#end()
 colorscheme onedark
 set background=dark
 
-" Configure Lightline to use One Dark theme
+" Configure Lightline to use One Dark theme and integrate with CoC
 let g:lightline = {
-  \ 'colorscheme': 'onedark'
+  \ 'colorscheme': 'onedark',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ],
+  \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+  \ },
+  \ 'component_function': {
+  \   'cocstatus': 'coc#status',
+  \   'currentfunction': 'CocCurrentFunction'
+  \ },
   \ }
 
 " Close vim if NERDTree is the last open window
@@ -180,6 +200,40 @@ vnoremap <C-\> :NERDTreeToggle<CR>
 
 " Bind to file search
 nnoremap <C-p> :GFiles<CR>
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+   if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Use tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Extra indent mappings
 vmap <Tab> >gv
