@@ -140,6 +140,9 @@ Plug 'jiangmiao/auto-pairs'
 " Display vertical line at each indentation level
 Plug 'Yggdroot/indentline'
 
+" File icons for NERDTree
+Plug 'ryanoasis/vim-devicons'
+
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -153,14 +156,6 @@ set background=dark
 " Configure Lightline to use One Dark theme and integrate with CoC
 let g:lightline = {
   \ 'colorscheme': 'onedark',
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
-  \ },
-  \ 'component_function': {
-  \   'cocstatus': 'coc#status',
-  \   'currentfunction': 'CocCurrentFunction'
-  \ },
   \ }
 
 " Close vim if NERDTree is the last open window
