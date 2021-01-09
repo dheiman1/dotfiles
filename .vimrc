@@ -2,35 +2,36 @@
 " General Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set nocompatible             " Don't try to be vi compatible
-syntax on                    " Enable syntax highlighting
-set history=500              " Sets how many lines of history vim has to remember
-filetype plugin on           " Enable filetype plugins
-filetype indent on           " Enable loading of indents based on filetype
-set mouse=a                  " Enable mouse support
-set number relativenumber    " Enable line numbers
-set laststatus=2             " Always show the status line
-set expandtab                " Use spaces instead of tab
-set smarttab                 " Enable smart tabs
-set autoindent               " Enable auto indent
-set smartindent              " Enable smart indent
-set nowrap                   " Disable word wrapping
-set nobackup                 " Turn backup off
-set noswapfile               " Don't create swap files
-set ruler                    " Always show current position
-set cmdheight=1              " Height of the command bar
-set hidden                   " A buffer becomes hidden when it is abandoned
-set ignorecase               " Ignore case when searching
-set smartcase                " When searching try to be smart about cases
-set incsearch                " Highlight search results
-set lazyredraw               " Don't redraw while executing macros
-set magic                    " Enable regex magic
-set showmatch                " Show matching brackets when cursor is over them
-set mat=2                    " Tenths of a second to blink when matching brackets
-set encoding=utf-8           " Set utf8 as standard encoding and en_US as standard language
-set clipboard=unnamed        " Use system clipboard as default register
-set noshowmode               " Hide mode message on bottom of screen
-set ttimeoutlen=0            " Reduce time to exit insert mode
+set nocompatible                            " Don't try to be vi compatible
+syntax on                                   " Enable syntax highlighting
+set history=500                             " Sets how many lines of history vim has to remember
+filetype plugin on                          " Enable filetype plugins
+filetype indent on                          " Enable loading of indents based on filetype
+set mouse=a                                 " Enable mouse support
+set number relativenumber                   " Enable line numbers
+set laststatus=2                            " Always show the status line
+set expandtab                               " Use spaces instead of tab
+set smarttab                                " Enable smart tabs
+set autoindent                              " Enable auto indent
+set smartindent                             " Enable smart indent
+set nowrap                                  " Disable word wrapping
+set nobackup                                " Turn backup off
+set noswapfile                              " Don't create swap files
+set ruler                                   " Always show current position
+set cmdheight=1                             " Height of the command bar
+set hidden                                  " A buffer becomes hidden when it is abandoned
+set ignorecase                              " Ignore case when searching
+set smartcase                               " When searching try to be smart about cases
+set incsearch                               " Highlight search results
+set lazyredraw                              " Don't redraw while executing macros
+set magic                                   " Enable regex magic
+set showmatch                               " Show matching brackets when cursor is over them
+set mat=2                                   " Tenths of a second to blink when matching brackets
+set encoding=utf-8                          " Set utf8 as standard encoding and en_US as standard language
+set clipboard=unnamed                       " Use system clipboard as default register
+set noshowmode                              " Hide mode message on bottom of screen
+set ttimeoutlen=0                           " Reduce time to exit insert mode
+set signcolumn=yes                          " Merge signcolumn and number column into one
 
 " Disable automatic comment insertion for all filetypes
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -91,57 +92,25 @@ set tm=500
 " Plugin Installation
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Specify a directory for plugins
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugged')                   " Specify a directory for plugins
 
-" Vim Intellisense engine
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" NERDTree file tree
-Plug 'scrooloose/nerdtree'
-
-" Integrate fuzzy file finding with vim
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Vim Intellisense engine
+Plug 'scrooloose/nerdtree'                          " NERDTree file tree
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Integrate fuzzy file finding with vim
 Plug 'junegunn/fzf.vim'
-
-" Git wrapper
-Plug 'tpope/vim-fugitive'
-
-" Display git diff in sign column
-Plug 'airblade/vim-gitgutter'
-
-" Syntax highlighting for various languages
-Plug 'sheerun/vim-polyglot'
-
-" Configurable statusline
-Plug 'itchyny/lightline.vim'
-
-" One Dark Colorscheme
-Plug 'joshdick/onedark.vim'
-
-" Emmet
-Plug 'mattn/emmet-vim'
-
-" Vim/Tmux Navigation
-Plug 'christoomey/vim-tmux-navigator'
-
-" Minimal motion plug
-Plug 'justinmk/vim-sneak'
-
-" Improve terminal integration with tmux in iTerm and Konsole
-Plug 'wincent/terminus'
-
-" Comment Line
-Plug 'tpope/vim-commentary'
-
-" Insert or delete brackets, parens, quotes, etc in pairs
-Plug 'jiangmiao/auto-pairs'
-
-" Display vertical line at each indentation level
-Plug 'Yggdroot/indentline'
-
-" File icons for NERDTree
-Plug 'ryanoasis/vim-devicons'
+Plug 'tpope/vim-fugitive'                           " Git wrapper
+Plug 'airblade/vim-gitgutter'                       " Display git diff in sign column
+Plug 'sheerun/vim-polyglot'                         " Syntax highlighting for various languages
+Plug 'itchyny/lightline.vim'                        " Configurable statusline
+Plug 'joshdick/onedark.vim'                         " One Dark Colorscheme
+Plug 'mattn/emmet-vim'                              " Emmet
+Plug 'christoomey/vim-tmux-navigator'               " Vim/Tmux Navigation
+Plug 'justinmk/vim-sneak'                           " Minimal motion plug
+Plug 'wincent/terminus'                             " Improve terminal integration with tmux in iTerm and Konsole
+Plug 'tpope/vim-commentary'                         " Comment Line
+Plug 'jiangmiao/auto-pairs'                         " Insert or delete brackets, parens, quotes, etc in pairs
+Plug 'Yggdroot/indentline'                          " Display vertical line at each indentation level
+Plug 'ryanoasis/vim-devicons'                       " File icons for NERDTree
 
 call plug#end()
 
