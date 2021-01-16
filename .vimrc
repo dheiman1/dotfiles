@@ -51,6 +51,7 @@ set novisualbell
 " Set number of colors
 if !has('gui_running')
   set t_Co=256
+  set t_ut=
 endif
 
 " 1 tab = 4 spaces
@@ -95,7 +96,7 @@ autocmd BufReadPost * if line("'\'") > 1 && line("'\'") <= line("$") | exe "norm
 
 call plug#begin('~/.vim/plugged')                   " Specify a directory for plugins
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Vim Intellisense engine
+Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Intellisense engine
 Plug 'scrooloose/nerdtree'                          " NERDTree file tree
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy File Finder
 Plug 'junegunn/fzf.vim'                             " Integrate fuzzy file finder with Vim
@@ -105,8 +106,8 @@ Plug 'sheerun/vim-polyglot'                         " Syntax highlighting for va
 Plug 'vim-airline/vim-airline'                      " Vim statusline
 Plug 'vim-airline/vim-airline-themes'               " Statusline themes
 Plug 'ap/vim-css-color'                             " Color name highlighter
-Plug 'morhetz/gruvbox'                              " Gruvbox colorscheme
-Plug 'bagrat/vim-buffet'                            " Vim buffer navigation
+Plug 'tomasiser/vim-code-dark'                      " Dark+ colorscheme
+Plug 'bagrat/vim-buffet'                            " Buffer navigation
 Plug 'edkolev/tmuxline.vim'                         " Tmux statusline generator
 Plug 'mattn/emmet-vim'                              " Emmet
 Plug 'christoomey/vim-tmux-navigator'               " Vim/Tmux Navigation
@@ -124,12 +125,11 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set colorscheme and background
-let g:gruvbox_contrast_dark = 'hard'
-colorscheme gruvbox
+colorscheme codedark
 set background=dark
 
 " Set Airline theme
-let g:airline_theme='base16_gruvbox_dark_hard'
+let g:airline_theme='codedark'
 
 " Enable powerline font glyphs
 let g:airline_powerline_fonts = 1
