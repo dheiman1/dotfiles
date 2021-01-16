@@ -5,8 +5,8 @@
 set nocompatible                            " Don't try to be vi compatible
 syntax on                                   " Enable syntax highlighting
 set history=500                             " Sets how many lines of history vim has to remember
-filetype plugin on                          " Enable filetype plugins
-filetype indent on                          " Enable loading of indents based on filetype
+filetype plugin on                          " Enable plugins
+filetype indent on                          " Enable file-type specific indentation
 set mouse=a                                 " Enable mouse support
 set number relativenumber                   " Enable line numbers
 set laststatus=2                            " Always show the status line
@@ -17,9 +17,8 @@ set smartindent                             " Enable smart indent
 set nowrap                                  " Disable word wrapping
 set nobackup                                " Turn backup off
 set noswapfile                              " Don't create swap files
-set ruler                                   " Always show current position
 set cmdheight=1                             " Height of the command bar
-set hidden                                  " A buffer becomes hidden when it is abandoned
+set hidden                                  " Enables hidden buffers
 set ignorecase                              " Ignore case when searching
 set smartcase                               " When searching try to be smart about cases
 set incsearch                               " Highlight search results
@@ -32,17 +31,27 @@ set clipboard=unnamed                       " Use system clipboard as default re
 set noshowmode                              " Hide mode message on bottom of screen
 set ttimeoutlen=0                           " Reduce time to exit insert mode
 set signcolumn=yes                          " Merge signcolumn and number column into one
+set scrolloff=1                             " Sets minimum number of screen lines to keep above/below cursor
+set updatetime=200                          " Reduce delays (default 4000ms)
+set shortmess+=c                            " Don't pass messages to ins-completion-menu
 
-" Disable automatic comment insertion for all filetypes
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" Turn on the wild menu
+set wildmenu
+set wildignorecase
+set wildignore+=**/node_modules/**
 
-" Remove trailing whitespace on save
-" https://makandracards.com/makandra/11541-how-to-not-leave-trailing-whitespace-using-your-editor-or-git
-autocmd BufWritePre * :%s/\s\+$//e
+" Configure backspace to work as expected
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
 
-" Set to auto read when a file is changed from the outside
-set autoread
-au FocusGained,BufEnter * checktime
+" Disable error sounds
+set noerrorbells
+set novisualbell
+
+" Set number of colors
+if !has('gui_running')
+  set t_Co=256
+endif
 
 " 1 tab = 4 spaces
 set shiftwidth=4
@@ -53,40 +62,32 @@ set colorcolumn=120
 
 " Set line break at 500 characters
 set linebreak
-set tw=500
+set textwidth=500
 
 " Create undo directory
 set undodir=~/.vim/undodir
 set undofile
 
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-  set t_Co=256
-endif
-
 " Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
-  set stal=2
+  set showtabline=2
 catch
 endtry
 
+" Set to auto read when a file is changed from the outside
+set autoread
+autocmd FocusGained,BufEnter * checktime
+
+" Disable automatic comment insertion for all filetypes
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Remove trailing whitespace on save
+" https://makandracards.com/makandra/11541-how-to-not-leave-trailing-whitespace-using-your-editor-or-git
+autocmd BufWritePre * :%s/\s\+$//e
+
 " Return to the last edit position when opening files
-au BufReadPost * if line("'\'") > 1 && line("'\'") <= line("$") | exe "normal! g'\"" | endif
-
-" Turn on the wild menu
-set wildmenu
-set wildignorecase
-
-" Configure backspace to work as expected
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" Disable error sounds
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
+autocmd BufReadPost * if line("'\'") > 1 && line("'\'") <= line("$") | exe "normal! g'\"" | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Installation
@@ -96,17 +97,21 @@ call plug#begin('~/.vim/plugged')                   " Specify a directory for pl
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Vim Intellisense engine
 Plug 'scrooloose/nerdtree'                          " NERDTree file tree
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Integrate fuzzy file finding with vim
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy File Finder
+Plug 'junegunn/fzf.vim'                             " Integrate fuzzy file finder with Vim
 Plug 'tpope/vim-fugitive'                           " Git wrapper
 Plug 'airblade/vim-gitgutter'                       " Display git diff in sign column
 Plug 'sheerun/vim-polyglot'                         " Syntax highlighting for various languages
-Plug 'itchyny/lightline.vim'                        " Configurable statusline
-Plug 'joshdick/onedark.vim'                         " One Dark Colorscheme
+Plug 'vim-airline/vim-airline'                      " Vim statusline
+Plug 'vim-airline/vim-airline-themes'               " Statusline themes
+Plug 'ap/vim-css-color'                             " Color name highlighter
+Plug 'morhetz/gruvbox'                              " Gruvbox colorscheme
+Plug 'bagrat/vim-buffet'                            " Vim buffer navigation
+Plug 'edkolev/tmuxline.vim'                         " Tmux statusline generator
 Plug 'mattn/emmet-vim'                              " Emmet
 Plug 'christoomey/vim-tmux-navigator'               " Vim/Tmux Navigation
-Plug 'justinmk/vim-sneak'                           " Minimal motion plug
-Plug 'wincent/terminus'                             " Improve terminal integration with tmux in iTerm and Konsole
+Plug 'justinmk/vim-sneak'                           " Minimal motion plugin
+Plug 'wincent/terminus'                             " Improve terminal integration with tmux in iTerm/Konsole
 Plug 'tpope/vim-commentary'                         " Comment Line
 Plug 'jiangmiao/auto-pairs'                         " Insert or delete brackets, parens, quotes, etc in pairs
 Plug 'Yggdroot/indentline'                          " Display vertical line at each indentation level
@@ -119,13 +124,18 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set colorscheme and background
-colorscheme onedark
+let g:gruvbox_contrast_dark = 'hard'
+colorscheme gruvbox
 set background=dark
 
-" Configure Lightline to use One Dark theme and integrate with CoC
-let g:lightline = {
-  \ 'colorscheme': 'onedark',
-  \ }
+" Set Airline theme
+let g:airline_theme='base16_gruvbox_dark_hard'
+
+" Enable powerline font glyphs
+let g:airline_powerline_fonts = 1
+
+" Display all buffers when there's only one tab open
+let g:airline#extensions#tabline#enabled = 1
 
 " Close vim if NERDTree is the last open window
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists ('b:NERDTree') && b:NERDTree.isTabTree() |
@@ -134,8 +144,11 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists ('b:NERDT
 " Enable label-mode for vim-sneak
 let g:sneak#label = 1
 
-" Customize vim-tmux-navigator hotkeys
-let g:tmux_navigator_no_mappings = 1
+" Customize vim-buffet tabline
+let g:buffet_powerline_separators = 1
+let g:buffet_tab_icon = "\uf00a"
+let g:buffet_left_trunc_icon = "\uf0a8"
+let g:buffet_right_trunc_icon = "\uf0a9"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Mappings
@@ -145,22 +158,45 @@ let g:tmux_navigator_no_mappings = 1
 let mapleader=" "
 let g:mapleader=" "
 
+" Change Emmet trigger key
+let g:user_emmet_leader_key=','
+
 " Smart way to move between windows
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" Customize vim-tmux-navigator hotkeys
+let g:tmux_navigator_no_mappings = 1
+
 " Map Tmux Navigation hotkeys
-nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-h> :TmuxNavigateLeft<CR>
+nnoremap <silent> <C-j> :TmuxNavigateDown<CR>
+nnoremap <silent> <C-k> :TmuxNavigateUp<CR>
+nnoremap <silent> <C-l> :TmuxNavigateRight<CR>
 
 " Bind to toggle NERDTree
 nnoremap <C-\> :NERDTreeToggle<CR>
-inoremap <C-\> :NERDTreeToggle<CR>
-vnoremap <C-\> :NERDTreeToggle<CR>
+
+" Switch buffers with vim-buffet
+nmap <leader>1 <Plug>BuffetSwitch(1)
+nmap <leader>2 <Plug>BuffetSwitch(2)
+nmap <leader>3 <Plug>BuffetSwitch(3)
+nmap <leader>4 <Plug>BuffetSwitch(4)
+nmap <leader>5 <Plug>BuffetSwitch(5)
+nmap <leader>6 <Plug>BuffetSwitch(6)
+nmap <leader>7 <Plug>BuffetSwitch(7)
+nmap <leader>8 <Plug>BuffetSwitch(8)
+nmap <leader>9 <Plug>BuffetSwitch(9)
+nmap <leader>0 <Plug>BuffetSwitch(10)
+
+" Extra buffer navigation mappings
+noremap <Tab> :bn<CR>                               " Next buffer
+noremap <S-Tab> :bp<CR>                             " Previous buffer
+noremap <Leader><Tab> :Bw<CR>                       " Erase current buffer
+noremap <Leader><S-Tab> :Bw!<CR>                    " Force erase of current buffer
+" noremap <C-t> :tabnew split<CR>
 
 " Bind to file search
 nnoremap <C-p> :GFiles<CR>
@@ -184,7 +220,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Use tab for trigger completion with characters ahead and navigate
+" Use tab to trigger completion with characters ahead and navigate
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -198,7 +234,3 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Extra indent mappings
-vmap <Tab> >gv
-vmap <S-Tab> <gv
