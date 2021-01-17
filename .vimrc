@@ -48,6 +48,11 @@ set whichwrap+=<,>,h,l
 set noerrorbells
 set novisualbell
 
+" Checks if using truecolor terminal
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 " Set number of colors
 if !has('gui_running')
   set t_Co=256
@@ -94,29 +99,29 @@ autocmd BufReadPost * if line("'\'") > 1 && line("'\'") <= line("$") | exe "norm
 " Plugin Installation
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-call plug#begin('~/.vim/plugged')                   " Specify a directory for plugins
+call plug#begin('~/.vim/plugged')                    " Specify a directory for plugins
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Intellisense engine
-Plug 'scrooloose/nerdtree'                          " NERDTree file tree
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy File Finder
-Plug 'junegunn/fzf.vim'                             " Integrate fuzzy file finder with Vim
-Plug 'tpope/vim-fugitive'                           " Git wrapper
-Plug 'airblade/vim-gitgutter'                       " Display git diff in sign column
-Plug 'sheerun/vim-polyglot'                         " Syntax highlighting for various languages
-Plug 'vim-airline/vim-airline'                      " Vim statusline
-Plug 'vim-airline/vim-airline-themes'               " Statusline themes
-Plug 'ap/vim-css-color'                             " Color name highlighter
-Plug 'tomasiser/vim-code-dark'                      " Dark+ colorscheme
-Plug 'bagrat/vim-buffet'                            " Buffer navigation
-Plug 'edkolev/tmuxline.vim'                         " Tmux statusline generator
-Plug 'mattn/emmet-vim'                              " Emmet
-Plug 'christoomey/vim-tmux-navigator'               " Vim/Tmux Navigation
-Plug 'justinmk/vim-sneak'                           " Minimal motion plugin
-Plug 'wincent/terminus'                             " Improve terminal integration with tmux in iTerm/Konsole
-Plug 'tpope/vim-commentary'                         " Comment Line
-Plug 'jiangmiao/auto-pairs'                         " Insert or delete brackets, parens, quotes, etc in pairs
-Plug 'Yggdroot/indentline'                          " Display vertical line at each indentation level
-Plug 'ryanoasis/vim-devicons'                       " File icons for NERDTree
+Plug 'neoclide/coc.nvim', {'branch': 'release'}      " Intellisense engine
+Plug 'scrooloose/nerdtree'                           " NERDTree file tree
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }  " Fuzzy File Finder
+Plug 'junegunn/fzf.vim'                              " Integrate fuzzy file finder with Vim
+Plug 'tpope/vim-fugitive'                            " Git wrapper
+Plug 'airblade/vim-gitgutter'                        " Display git diff in sign column
+Plug 'sheerun/vim-polyglot'                          " Syntax highlighting for various languages
+Plug 'vim-airline/vim-airline'                       " Vim statusline
+Plug 'vim-airline/vim-airline-themes'                " Statusline themes
+Plug 'ap/vim-css-color'                              " Color name highlighter
+Plug 'sainnhe/gruvbox-material'                      " Gruvbox-material theme
+Plug 'bagrat/vim-buffet'                             " Buffer navigation
+Plug 'edkolev/tmuxline.vim'                          " Tmux statusline generator
+Plug 'mattn/emmet-vim'                               " Emmet
+Plug 'christoomey/vim-tmux-navigator'                " Vim/Tmux Navigation
+Plug 'justinmk/vim-sneak'                            " Minimal motion plugin
+Plug 'wincent/terminus'                              " Improve terminal integration with tmux in iTerm/Konsole
+Plug 'tpope/vim-commentary'                          " Comment Line
+Plug 'jiangmiao/auto-pairs'                          " Insert or delete brackets, parens, quotes, etc in pairs
+Plug 'Yggdroot/indentline'                           " Display vertical line at each indentation level
+Plug 'ryanoasis/vim-devicons'                        " File icons for NERDTree
 
 call plug#end()
 
@@ -125,11 +130,12 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set colorscheme and background
-colorscheme codedark
+let g:gruvbox_material_background = 'hard'
+colorscheme gruvbox-material
 set background=dark
 
 " Set Airline theme
-let g:airline_theme='codedark'
+let g:airline_theme='gruvbox_material'
 
 " Enable powerline font glyphs
 let g:airline_powerline_fonts = 1
