@@ -33,7 +33,7 @@ set ttimeoutlen=0                           " Reduce time to exit insert mode
 set signcolumn=yes                          " Merge signcolumn and number column into one
 set scrolloff=1                             " Sets minimum number of screen lines to keep above/below cursor
 set updatetime=200                          " Reduce delays (default 4000ms)
-set shortmess+=c                            " Don't pass messages to ins-completion-menu
+set shortmess+=c                            " Avoid ins-completion-menu messages with <C-c>
 
 " Turn on the wild menu
 set wildmenu
@@ -45,18 +45,29 @@ set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
 " Disable error sounds
-set noerrorbells
-set novisualbell
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+    " Disable in gVim
+  autocmd GUIEnter * set visualbell t_vb=
+endif
+
+" gVim Settings
+if has('gui_running')
+  set renderoptions=type:directx            " Enable font ligatures
+  set encoding=utf-8                        " May require <C-L> to refresh screen
+  set guifont=JetBrainsMono_NF:h12          " Set font in gVim
+  autocmd GUIEnter * simalt ~x              " Start maximized
+endif
+
+" Remove gVim widgets
+set guioptions-=T                           " Remove toolbar
+set guioptions-=r                           " Remove right scroll bar
+set guioptions-=L                           " Remove left scroll bar
+set guioptions-=m                           " Remove menu bar
 
 " Checks if using truecolor terminal
 if (has("termguicolors"))
   set termguicolors
-endif
-
-" Set number of colors
-if !has('gui_running')
-  set t_Co=256
-  set t_ut=
 endif
 
 " 1 tab = 4 spaces
@@ -67,7 +78,7 @@ set tabstop=4
 set colorcolumn=120
 
 " Set line break at 500 characters
-set linebreak
+set nolinebreak
 set textwidth=500
 
 " Create undo directory
@@ -130,6 +141,7 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set colorscheme and background
+let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_background = 'hard'
 colorscheme gruvbox-material
 set background=dark
@@ -173,6 +185,12 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" Resize current Vim split
+nnoremap <C-left> :vertical resize -5<CR>
+nnoremap <C-down> :resize -5<CR>
+nnoremap <C-up> :resize +5<CR>
+nnoremap <C-right> :vertical resize +5<CR>
+
 " Customize vim-tmux-navigator hotkeys
 let g:tmux_navigator_no_mappings = 1
 
@@ -184,6 +202,9 @@ nnoremap <silent> <C-l> :TmuxNavigateRight<CR>
 
 " Bind to toggle NERDTree
 nnoremap <C-\> :NERDTreeToggle<CR>
+
+" Change working directory of file being edited
+nnoremap <leader>cd :cd%:p:h<CR>
 
 " Switch buffers with vim-buffet
 nmap <leader>1 <Plug>BuffetSwitch(1)
@@ -202,7 +223,7 @@ noremap <Tab> :bn<CR>                               " Next buffer
 noremap <S-Tab> :bp<CR>                             " Previous buffer
 noremap <Leader><Tab> :Bw<CR>                       " Erase current buffer
 noremap <Leader><S-Tab> :Bw!<CR>                    " Force erase of current buffer
-" noremap <C-t> :tabnew split<CR>
+noremap <C-t> :tabnew split<CR>
 
 " Bind to file search
 nnoremap <C-p> :GFiles<CR>
