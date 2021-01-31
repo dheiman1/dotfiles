@@ -1,7 +1,8 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible                            " Don't try to be vi compatible
+
+set nocompatible                            " Don't try to be Vi compatible
 syntax on                                   " Enable syntax highlighting
 set history=500                             " Sets how many lines of history vim has to remember
 filetype plugin on                          " Enable plugins
@@ -21,7 +22,7 @@ set hidden                                  " Enables hidden buffers
 set ignorecase                              " Ignore case when searching
 set smartcase                               " When searching try to be smart about cases
 set incsearch                               " While searching show where the pattern matches so far
-set nohlsearch                              " Disable search highlighting
+set nohlsearch                              " Don't highlight search results
 set lazyredraw                              " Don't redraw while executing macros
 set magic                                   " Enable regex magic
 set showmatch                               " Show matching brackets when cursor is over them
@@ -32,7 +33,7 @@ set noshowmode                              " Hide mode message on bottom of scr
 set ttimeoutlen=0                           " Reduce time to exit insert mode
 set signcolumn=yes                          " Merge signcolumn and number column into one
 set scrolloff=1                             " Sets minimum number of screen lines to keep above/below cursor
-set updatetime=200                          " Reduce delays (default 4000ms)
+set updatetime=100                          " Reduce delays (default 4000ms)
 set shortmess+=c                            " Avoid ins-completion-menu messages with <C-c>
 set wildmenu                                " Turn on the wild menu
 set wildignorecase                          " Don't make wild menu search case-sensitive
@@ -83,13 +84,6 @@ endif
 set undodir=~/.vim/undodir
 set undofile
 
-" Specify the behavior when switching between buffers
-try
- set switchbuf=useopen,usetab,newtab
- set showtabline=2
-catch
-endtry
-
 " Set to auto read when a file is changed from the outside
 set autoread
 autocmd FocusGained,BufEnter * checktime
@@ -106,6 +100,7 @@ autocmd BufReadPost * if line("'\'") > 1 && line("'\'") <= line("$") | exe "norm
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Installation
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 call plug#begin('~/.vim/plugged')                    " Specify a directory for plugins
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}      " Intellisense engine
@@ -113,23 +108,24 @@ Plug 'scrooloose/nerdtree'                           " NERDTree file tree
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }  " Fuzzy File Finder
 Plug 'junegunn/fzf.vim'                              " Integrate fuzzy file finder with Vim
 Plug 'junegunn/vim-easy-align'                       " Text alignment plugin
+Plug 'tpope/vim-fugitive'                            " Git wrapper
+Plug 'airblade/vim-gitgutter'                        " Display git diff in sign column
 Plug 'sheerun/vim-polyglot'                          " Syntax highlighting for various languages
 Plug 'vim-airline/vim-airline'                       " Vim statusline
 Plug 'vim-airline/vim-airline-themes'                " Statusline themes
-Plug 'Yggdroot/indentLine'                           " Display vertical lines at each indentation level
-Plug 'rakr/vim-one'                                  " One-dark colorscheme
-Plug 'tpope/vim-fugitive'                            " Git wrapper
-Plug 'airblade/vim-gitgutter'                        " Display git diff in signcolumn
+Plug 'jeetsukumaran/vim-buffergator'                 " Better buffer navigation
 Plug 'edkolev/tmuxline.vim'                          " Tmux statusline generator
-Plug 'mattn/emmet-vim'                               " Emmet
 Plug 'AndrewRadev/tagalong.vim'                      " Auto rename HTML/XML tags
+Plug 'rakr/vim-one'                                  " One dark colorscheme
+Plug 'ap/vim-css-color'                              " Color name highlighter
+Plug 'mattn/emmet-vim'                               " Emmet
 Plug 'christoomey/vim-tmux-navigator'                " Vim/Tmux Navigation
-" Plug 'jeetsukumaran/vim-buffergator'               " Better buffer navigation & selecting
 Plug 'justinmk/vim-sneak'                            " Minimal motion plugin
 Plug 'wincent/terminus'                              " Improve terminal integration with tmux in iTerm/Konsole
 Plug 'tpope/vim-commentary'                          " Comment Line
 Plug 'tpope/vim-surround'                            " Easily add, delete, or change (), [], '', and more
 Plug 'jiangmiao/auto-pairs'                          " Automatically insert or delete (), '', [], {} in pairs
+Plug 'Yggdroot/indentline'                           " Display vertical line at each indentation level
 Plug 'ryanoasis/vim-devicons'                        " File icons for NERDTree
 
 call plug#end()
@@ -137,6 +133,7 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Set colorscheme and background
 let g:one_allow_italics = 0
 colorscheme one
@@ -145,21 +142,23 @@ set background=dark
 " Set Airline theme
 let g:airline_theme='one'
 
-" Enable Airline's tab line
+" Enable Airline's buffer/tab line
 let g:airline#extensions#tabline#enabled = 1
 
 " Close vim if NERDTree is the last open window
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists ('b:NERDTree') && b:NERDTree.isTabTree() |
- \ quit | endif
+  \ quit | endif
 
 " Enable label-mode for vim-sneak
 let g:sneak#label = 1
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Set leader key
 let mapleader=" "
+let g:mapleader=" "
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -167,11 +166,11 @@ map Q gq
 " Map Y to y$
 map Y y$
 
-" Smart way to move between windows
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+" Change Emmet trigger key
+" let g:user_emmet_leader_key=','
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " Resize current Vim split
 nnoremap <C-left> :vertical resize -5<CR>
@@ -179,10 +178,8 @@ nnoremap <C-down> :resize -5<CR>
 nnoremap <C-up> :resize +5<CR>
 nnoremap <C-right> :vertical resize +5<CR>
 
-" Customize vim-tmux-navigator hotkeys
-let g:tmux_navigator_no_mappings = 1
-
 " Map Tmux Navigation hotkeys
+let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <C-h> :TmuxNavigateLeft<CR>
 nnoremap <silent> <C-j> :TmuxNavigateDown<CR>
 nnoremap <silent> <C-k> :TmuxNavigateUp<CR>
@@ -202,7 +199,7 @@ nnoremap <C-p> :GFiles<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CoC Configuration
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
