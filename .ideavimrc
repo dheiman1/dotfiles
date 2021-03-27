@@ -1,0 +1,55 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = " "                          " Change leader key
+set number relativenumber                    " Set line numbers
+set ideajoin                                 " Use IdeaVim to join lines smartly
+set visualbell noerrorbells                  " Disable error sounds
+set scrolloff=1                              " Sets minimum number of screen lines to keep above/below cursor
+set ignorecase                               " When searching don't be case-sensitive
+set smartcase                                " When searching be smart about cases
+set showmode                                 " Display current mode in bottom left corner
+set matchpairs                               " Highlight characters that form pairs
+set clipboard+=ideaput                       " Utilize system clipboard
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set surround
+set multiple-cursors
+set commentary
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Intellimacs Configuration
+" https://github.com/MarcoIeni/intellimacs
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Selected Intellimacs modules
+" source ~/.intellimacs/spacemacs.vim
+" source ~/.intellimacs/extra.vim
+" source ~/.intellimacs/major.vim
+" source ~/.intellimacs/hybrid.vim
+
+" Comma for major mode
+" nmap , <leader>m
+" vmap , <leader>m
+
+" Add/edit actions
+" nnoremap <leader>gl    :action Vcs.Show.Log<CR>
+" vnoremap <leader>gl    :action Vcs.Show.Log<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Don't use Ex mode, use Q for formatting
+:map Q gq
+
+" Make Y behave as expected
+:map Y y$
+
+" Remap Tab to move between windows
+:map <S-Tab> :action PreviousTab<cr>
+:map <Tab> :action NextTab<cr>
+
+" Open Terminal
+:map <C-~> <Action> (ActivateTerminalToolWindow)
