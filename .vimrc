@@ -37,13 +37,12 @@ set shortmess+=c                            " Avoid ins-completion-menu messages
 set wildmenu                                " Turn on the wild menu
 set wildignorecase                          " Don't make wild menu search case-sensitive
 set wildignore+=**/node_modules/**          " Never search in node_modules directory
+set signcolumn=yes                          " Always show signcolumn
+" set colorcolumn=120                         " Set ruler at 120 characters
 
 " 1 tab = 4 spaces
 set shiftwidth=4
 set tabstop=4
-
-" Set ruler at 120 characters
-set colorcolumn=120
 
 " Set line break at 500 characters
 set nolinebreak
@@ -61,8 +60,7 @@ autocmd GUIEnter * set noerrorbells visualbell t_vb=
 
 " gVim Settings
 if has('gui_running')
-  " set guifont=JetBrainsMono_NF:h12          " Set font in gVim
-  set guifont=FiraCode_NF:h12          " Set font in gVim
+  set guifont=JetBrainsMono_NF:h12          " Set font in gVim
   autocmd GUIEnter * simalt ~x              " Start maximized
 endif
 
@@ -71,12 +69,15 @@ set guioptions-=T                           " Remove toolbar
 set guioptions-=r                           " Remove right scroll bar
 set guioptions-=L                           " Remove left scroll bar
 set guioptions-=e                           " Share tab style with terminal Vim
-" set guioptions-=m                           " Remove menu bar
 
 " Checks if using truecolor terminal
 if (has("termguicolors"))
   set termguicolors
 endif
+
+" Change cursor based on mode
+let &t_SI = "\e[5 q"
+let &t_EI = "\e[1 q"
 
 " Create undo directory
 set undodir=~/.vim/undodir
@@ -111,15 +112,13 @@ Plug 'airblade/vim-gitgutter'                        " Display git diff in sign 
 Plug 'sheerun/vim-polyglot'                          " Syntax highlighting for various languages
 Plug 'vim-airline/vim-airline'                       " Vim statusline
 Plug 'vim-airline/vim-airline-themes'                " Statusline themes
-Plug 'jeetsukumaran/vim-buffergator'                 " Better buffer navigation
 Plug 'edkolev/tmuxline.vim'                          " Tmux statusline generator
 Plug 'AndrewRadev/tagalong.vim'                      " Auto rename HTML/XML tags
 Plug 'rakr/vim-one'                                  " One dark colorscheme
-Plug 'ap/vim-css-color'                              " Color name highlighter
+Plug 'kaicataldo/material.vim'                       " Material colorscheme
 Plug 'mattn/emmet-vim'                               " Emmet
 Plug 'christoomey/vim-tmux-navigator'                " Vim/Tmux Navigation
 Plug 'justinmk/vim-sneak'                            " Minimal motion plugin
-Plug 'wincent/terminus'                              " Improve terminal integration with tmux in iTerm/Konsole
 Plug 'tpope/vim-commentary'                          " Comment Line
 Plug 'tpope/vim-surround'                            " Easily add, delete, or change (), [], '', and more
 Plug 'jiangmiao/auto-pairs'                          " Automatically insert or delete (), '', [], {} in pairs
@@ -133,12 +132,14 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set colorscheme and background
-let g:one_allow_italics = 0
-colorscheme one
+let g:material_terminal_italics = 1
+let g:material_theme_style = 'darker'
+colorscheme material
 set background=dark
 
 " Set Airline theme
 let g:airline_theme='one'
+let g:airline_powerline_fonts = 1
 
 " Enable Airline's buffer/tab line
 let g:airline#extensions#tabline#enabled = 1
@@ -181,12 +182,15 @@ nnoremap <silent> <C-l> :TmuxNavigateRight<CR>
 
 " Bind to toggle NERDTree
 nnoremap <C-\> :NERDTreeToggle<CR>
+nnoremap <leader>ft :NERDTreeToggle<CR>
 
 " Extra buffer navigation mappings
 noremap <Tab> :bn<CR>                               " Next buffer
+noremap <leader>bn :bn<CR>                               " Next buffer
 noremap <S-Tab> :bp<CR>                             " Previous buffer
-noremap <Leader><Tab> :bd<CR>                       " Erase current buffer
-noremap <Leader><S-Tab> :bd!<CR>                    " Force erase of current buffer
+noremap <leader>bp :bp<CR>                             " Previous buffer
+noremap <leader><Tab> :bd<CR>                       " Erase current buffer
+noremap <leader>bd :bd<CR>                       " Erase current buffer
 
 " Bind to file search
 nnoremap <C-p> :GFiles<CR>
@@ -196,28 +200,6 @@ nnoremap <C-p> :GFiles<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if filereadable(expand("~/.vim/plugged/coc.nvim"))
-  let g:coc_global_extensions=[
-      \'coc-marketplace'
-      \'coc-css'
-      \'coc-cssmodules'
-      \'coc-html'
-      \'coc-prettier'
-      \'coc-snippets'
-      \'coc-tsserver'
-      \'coc-python'
-      \'coc-sql'
-      \'coc-phpls'
-      \'coc-json'
-      \]
-
-  " Always show the signcolumn, otherwise it would shift the text each time
-  " diagnostics appear/become resolved.
-  if has("patch-8.1.1564")
-    " Recently vim can merge signcolumn and number column into one
-    set signcolumn=number
-  else
-    set signcolumn=yes
-  endif
 
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
