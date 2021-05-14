@@ -112,10 +112,11 @@ Plug 'airblade/vim-gitgutter'                        " Display git diff in sign 
 Plug 'sheerun/vim-polyglot'                          " Syntax highlighting for various languages
 Plug 'vim-airline/vim-airline'                       " Vim statusline
 Plug 'vim-airline/vim-airline-themes'                " Statusline themes
-Plug 'edkolev/tmuxline.vim'                          " Tmux statusline generator
+" Plug 'edkolev/tmuxline.vim'                          " Tmux statusline generator
 Plug 'AndrewRadev/tagalong.vim'                      " Auto rename HTML/XML tags
 Plug 'rakr/vim-one'                                  " One dark colorscheme
 Plug 'kaicataldo/material.vim'                       " Material colorscheme
+Plug 'tomasiser/vim-code-dark'                       " Dark+ colorscheme
 Plug 'mattn/emmet-vim'                               " Emmet
 Plug 'christoomey/vim-tmux-navigator'                " Vim/Tmux Navigation
 Plug 'justinmk/vim-sneak'                            " Minimal motion plugin
@@ -132,13 +133,15 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set colorscheme and background
-let g:material_terminal_italics = 1
-let g:material_theme_style = 'darker'
-colorscheme material
+" let g:material_terminal_italics = 0
+" let g:material_theme_style = 'darker'
+colorscheme codedark
+" colorscheme one
 set background=dark
 
 " Set Airline theme
-let g:airline_theme='one'
+let g:airline_theme='codedark'
+" let g:airline_theme='one'
 let g:airline_powerline_fonts = 1
 
 " Enable Airline's buffer/tab line
