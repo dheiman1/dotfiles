@@ -20,25 +20,6 @@ set multiple-cursors
 set commentary
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Intellimacs Configuration
-" https://github.com/MarcoIeni/intellimacs
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Selected Intellimacs modules
-" source ~/.intellimacs/spacemacs.vim
-" source ~/.intellimacs/extra.vim
-" source ~/.intellimacs/major.vim
-" source ~/.intellimacs/hybrid.vim
-
-" Comma for major mode
-" nmap , <leader>m
-" vmap , <leader>m
-
-" Add/edit actions
-" nnoremap <leader>gl    :action Vcs.Show.Log<CR>
-" vnoremap <leader>gl    :action Vcs.Show.Log<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Don't use Ex mode, use Q for formatting
@@ -46,10 +27,6 @@ set commentary
 
 " Make Y behave as expected
 :map Y y$
-
-" Remap Tab to move between windows
-:map <S-Tab> :action PreviousTab<cr>
-:map <Tab> :action NextTab<cr>
 
 " Open Terminal
 :map <C-~> <Action> (ActivateTerminalToolWindow)
