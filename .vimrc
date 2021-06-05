@@ -38,7 +38,7 @@ set wildmenu                                " Turn on the wild menu
 set wildignorecase                          " Don't make wild menu search case-sensitive
 set wildignore+=**/node_modules/**          " Never search in node_modules directory
 set signcolumn=yes                          " Always show signcolumn
-" set colorcolumn=120                         " Set ruler at 120 characters
+set colorcolumn=120                         " Set ruler at 120 characters
 
 " 1 tab = 4 spaces
 set shiftwidth=4
@@ -112,14 +112,12 @@ Plug 'airblade/vim-gitgutter'                        " Display git diff in sign 
 Plug 'sheerun/vim-polyglot'                          " Syntax highlighting for various languages
 Plug 'vim-airline/vim-airline'                       " Vim statusline
 Plug 'vim-airline/vim-airline-themes'                " Statusline themes
-" Plug 'edkolev/tmuxline.vim'                          " Tmux statusline generator
 Plug 'AndrewRadev/tagalong.vim'                      " Auto rename HTML/XML tags
 Plug 'rakr/vim-one'                                  " One dark colorscheme
 Plug 'kaicataldo/material.vim'                       " Material colorscheme
 Plug 'tomasiser/vim-code-dark'                       " Dark+ colorscheme
 Plug 'mattn/emmet-vim'                               " Emmet
 Plug 'christoomey/vim-tmux-navigator'                " Vim/Tmux Navigation
-Plug 'justinmk/vim-sneak'                            " Minimal motion plugin
 Plug 'tpope/vim-commentary'                          " Comment Line
 Plug 'tpope/vim-surround'                            " Easily add, delete, or change (), [], '', and more
 Plug 'jiangmiao/auto-pairs'                          " Automatically insert or delete (), '', [], {} in pairs
@@ -133,22 +131,18 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set colorscheme and background
-" let g:material_terminal_italics = 0
-" let g:material_theme_style = 'darker'
-colorscheme codedark
-" colorscheme one
+colorscheme one
 set background=dark
 
 " Set Airline theme
-let g:airline_theme='codedark'
-" let g:airline_theme='one'
+let g:airline_theme='one'
 let g:airline_powerline_fonts = 1
 
 " Enable Airline's buffer/tab line
 let g:airline#extensions#tabline#enabled = 1
 
-" Enable label-mode for vim-sneak
-let g:sneak#label = 1
+" Prevent indentline from concealing symbols in json and markdown
+let g:indentLine_fileTypeExclude = ['json', 'markdown']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Mappings
@@ -156,7 +150,6 @@ let g:sneak#label = 1
 
 " Set leader key
 let mapleader=" "
-let g:mapleader=" "
 
 " Don't use Ex mode, use Q for formatting
 nnoremap Q gq
