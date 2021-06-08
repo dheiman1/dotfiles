@@ -18,9 +18,10 @@ set clipboard+=ideaput                       " Utilize system clipboard
 set surround
 set multiple-cursors
 set commentary
+set NERDTree
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Mappings
+" Custom Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Don't use Ex mode, use Q for formatting
 :map Q gq
@@ -28,5 +29,8 @@ set commentary
 " Make Y behave as expected
 :map Y y$
 
-" Open Terminal
-:map <C-~> <Action> (ActivateTerminalToolWindow)
+" Easier window navigation
+:map <C-h> <C-w>h
+:map <C-j> <C-w>j
+:map <C-k> <C-w>k
+:map <C-l> <C-w>l
