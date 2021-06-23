@@ -34,3 +34,7 @@ set NERDTree
 :map <C-j> <C-w>j
 :map <C-k> <C-w>k
 :map <C-l> <C-w>l
+
+" Extra NERDTree navigation
+let g:NERDTreeMapActivateNode='l'
+let g:NERDTreeMapJumpParent='h'
